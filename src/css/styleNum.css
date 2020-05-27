@@ -1,0 +1,184 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+     }
+
+    .Contenedor{ /*centrar contenido*/
+      padding: 60px 0;
+      width: 90%;
+      max-width: 1000px;
+      margin: auto;
+      overflow:hidden;
+     }
+
+     .Contenedor1{ /*centrar contenido*/
+      padding: 60px 0;
+      width: 90%;
+      max-width: 1000px;
+      margin: auto;
+      overflow:hidden;
+     }
+      
+     /*Galeria de números*/
+     .GALERIA{
+      background: rgb(49, 248, 172); /*fondo de la galeria de numeros*/
+     }
+
+     .galeria-port{
+      display: flex;
+      justify-content: space-evenly;
+      flex-wrap: wrap;
+     }
+
+     .imagen-port{ /*tamaño de mosaico*/
+      width: 24%;
+      height: 180px;
+      margin-bottom: 10px;
+      overflow: hidden;
+      position: relative;
+      cursor: pointer;
+      box-shadow: 0 0 6px 0 rgba(0, 0, 0, .5);
+     }
+
+     .imagen-port > img{
+      width: 100%;
+      height: cover;
+      object-fit: cover;
+      display: block;
+     }
+
+     .hover-galeria{
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      transform: scale(0);
+      background: rgba(125, 215, 215, 0.64);
+      transition: transform .5s;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+     }
+     .hover-galeria p{ /*texto en el hover*/
+      color: rgb(65, 3, 211);
+     }
+
+     .imagen-port:hover .hover-galeria{
+      transform: scale(1);
+     }
+
+      /*estilos de la sopa*/
+
+      .JUEGO{
+       background: rgb(206, 255, 114);    
+      }
+    
+      #juego { /*borde de la celda*/
+        border: 1px solid rgb(138, 25, 212);
+        padding: 20px;
+        float: left;
+        margin: 30px 20px;
+      }
+      
+      #juego div {
+        width: 100%; /*ubicacion de cada cuadro de la celda*/
+        margin:  auto; 
+      }
+      
+      
+      #juego .puzzleSquare { /* estilo de las celdas */
+        text-transform: uppercase;
+        background-color: rgb(119, 224, 243);
+        border: 0;
+        font: 1em sans-serif;
+        margin: 3px;
+        width: 45px;
+        height: 45px;
+        line-height: 45px;
+        text-align: center;
+        box-shadow: 0 0 5px rgba(0, 0, 0, 0.3); /*rgba es sombreado*/
+        border-radius: 5px;
+        float: left;
+      }
+    
+      button::-moz-focus-inner {
+        border: 0; 
+      }
+      
+      #juego .selected { /*cuando se escoja un cuadro de la celda o la palabra se sombreara con el color elegido*/
+        background-color: rgb(86, 248, 11);
+      }
+      #juego .found { /*cuando se encuentra la palabra se sombreara con el color elegido y el color de la letra cambia*/
+        background-color: rgb(250, 114, 132);
+        color: rgb(255, 255, 255);
+      }
+      #juego .complete {
+        background-color: rgba(208, 131, 243, 0.822); /*cuando se encuentren todas las palabras*/
+      }
+      
+     
+      #Palabras { /*organizacion por columnas de las palabras*/
+        padding-top: 20px;
+        -moz-column-count: 2;
+        -moz-column-gap: 20px;
+        -webkit-column-count: 2;
+        -webkit-column-gap: 20px;
+        column-count: 2;
+        column-gap: 20px;
+        width: 300px;
+      }
+      
+      #Palabras ul {
+        list-style-type: disc;
+      }
+      
+      #Palabras li {
+        padding: 3px 0;
+        font: 1em sans-serif;
+      }
+      
+      #Palabras .wordFound {
+        text-decoration: line-through; /*subrayar la palabra encontrada*/
+        color: rgb(245, 7, 7);
+      }
+      
+   
+/*para adecuar al celular*/
+
+     @media screen and (max-width:900px){
+       header{
+        background-position: center;
+       }
+
+       
+
+       /*galeria*/
+       .imagen-port{
+        width: 44%;
+       }
+
+       /*sopa*/
+       .JUEGO{
+         width: 44%;
+       }
+
+     }
+
+     @media screen and (max-width:500px){
+       
+       /*galeria*/
+
+       .imagen-port{
+        width: 95%;
+       }
+       /*sopa*/
+       .JUEGO{
+        width: 95%;
+      }
+   
+       
+
+      
+     }

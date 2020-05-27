@@ -1,0 +1,43 @@
+.derecha1{
+  float: right;
+  width: 200px;
+  height: 170px;
+}
+.izquierda{
+  float: left;
+  width: 200px;
+  height: 170px;
+}
+.derecha2{
+  float: right;
+  width: 200px;
+  height: 170px;
+}
+
+.mision{
+    float: center;
+  }
+.vision{
+    float: center;
+  }
+.objetivo{
+    float: center;
+  }
+  /*Estilo para el titulo de objetivo general del proyecto*/
+  .h3{
+     font-family: "candara";
+     font-size: 200%;
+     color:#FFA07A;
+  }
+  /*Estilo para el titulo de la visión del proyecto*/
+  .h2{
+     font-family: "candara";
+     font-size: 200%;
+     color:#FFA07A;
+  }
+  /*Estilo para el titulo de la misión del proyecto*/
+  .h1{
+  font-size: "candara";
+  font-size: 200%;
+  color:#FFA07A;
+  }

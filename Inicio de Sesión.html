@@ -5,6 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <title>Sign To All - Iniciar sesión</title>
 
+  <link rel="shortcut icon" href="src/imagenes/Logo.png" type="image/png" />
+
   <!-- Hojas de CSS  -->
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <link href="src/css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection"/>
@@ -20,7 +22,7 @@
       margin-bottom: 100px;
     }
     .ingresar .card{
-      background: rgba(0,0,0,.2);
+      background: rgba(1, 84, 151, 0.3);
     }
   </style>
 
@@ -83,15 +85,30 @@
                 <h1>Iniciar sesión</h1>
               </div>
               <div class="card-content">
-
                 <div class="form-field">
-                  <label class="white-text">Usuario: </label><input class="white-text" type="text" name="usuario" id="usuario">
+                  <label class="white-text">Usuario: </label>
+                  <input class="white-text" type="text" name="usuario" id="usuario">
                 </div><br>
-
                 <div class="form-field">
-                <label class="white-text">Contraseña: </label></td> <td><input class="white-text" type="password" name="pass" id="pass">
+                <label class="white-text">Contraseña: </label>
+                  <input class="white-text" type="password" name="pass" id="pass">
                 </div><br>
-
+                <!-- Esto es lo nuevo  -->
+                <div class="form-field center-align">
+                  <form action="#">
+                    <p>
+                      <label>
+                        <input name="group1" type="radio" />
+                        <span class="white-text">Estudiante</span>
+                      </label>
+                      <label>
+                        <input name="group1" type="radio" />
+                        <span class="white-text">Profesor/a</span>
+                      </label>
+                    </p>
+                  </form>
+                </div><br>
+                <!-- Aqui termina y borra estos comentarios  -->
                 <div class="form-field">
                   <form action="#">
                     <label>
@@ -99,9 +116,7 @@
                       <span  class="white-text">Recuerdame</span>
                     </label>
                   </form>
-
                 </div><br>
-
                 <div class="form-field center-align">
                   <button class="waves-effect waves-light btn-large lime" onclick="validar()">Ingresar</button>
                 </div><br>

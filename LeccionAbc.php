@@ -1,3 +1,34 @@
+<?php
+  session_start();
+
+  require 'database.php';
+
+  if (isset($_SESSION['user_id_estu'])) {
+      $records = $conn->prepare('SELECT nombre_apellido, identificacion, password, confir_password FROM estudiante WHERE identificacion = :ide');
+      $records->bindParam(':ide', $_SESSION['user_id_estu']);
+      $records->execute();
+      $results = $records->fetch(PDO::FETCH_ASSOC);
+
+       $user_estu = null;
+
+    if (count($results) > 0) {
+      $user_estu = $results;
+    }
+
+  }elseif (isset($_SESSION['user_id_prof'])) {
+      $records = $conn->prepare('SELECT nombre_apellido, identificacion, password, confir_password FROM profesor_a WHERE identificacion = :ide');
+      $records->bindParam(':ide', $_SESSION['user_id_prof']);
+      $records->execute();
+      $results = $records->fetch(PDO::FETCH_ASSOC);
+
+      $user_prof = null;
+
+    if (count($results) > 0) {
+      $user_prof = $results;
+    }
+  }
+?>
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -5,23 +36,23 @@
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <title>Sign To All - Abecedario</title>
 
-  <link rel="shortcut icon" href="src/imagenes/Logo.png" type="image/png" />
+  <link rel="shortcut icon" href="imagenes/Logo.png" type="image/png" />
 
   <!-- Hojas de CSS  -->
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-  <link href="src/css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection"/>
-  <link href="src/css/style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+  <link href="css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+  <link href="css/style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
   <!--css Galeria-->
-  <link rel="stylesheet" href="src/css/styleAbc.css">
+  <link rel="stylesheet" href="css/styleAbc.css">
 
   <!--css iconos-->
-  <link rel="stylesheet" href="src/css/iconos.css">
+  <link rel="stylesheet" href="css/iconos.css">
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css">
 
   <!--  Scripts-->
   <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
-  <script src="src/js/materialize.js"></script>
-  <script src="src/js/init.js"></script>
+  <script src="js/materialize.js"></script>
+  <script src="js/init.js"></script>
 </head>
 <body>
   <!-- Contenedor 1  -->
@@ -29,23 +60,60 @@
     <div class="nav-wrapper container">
 
       <!-- encabezado -->
-      <img src="src/imagenes/Logo.png" style="width:65px;height:64px;border:10px"></img>
-      <a id="logo-container" href="Index.html" class="brand-logo">Sign to all</a>
+      <img src="imagenes/Logo.png" style="width:65px;height:64px;border:10px"></img>
+      <a id="logo-container" href="Index.php" class="brand-logo">Sign to all</a>
 
       <!-- menu pc -->
       <ul class="right hide-on-med-and-down">
-        <li><a href="Inicio de Sesión.html">Iniciar sesión</a></li>
-        <li><a href="Registro.html">Registrarse</a></li>
-        <li><a href="Lecciones.html">Lecciones</a></li>
+
+        <li><a href="Lecciones.php">Lecciones</a></li>
         <li><a href="#abajo">Contacto</a></li>
+          <?php if(empty($user_estu) && empty($user_prof)): ?>
+              <li><a href="Inicio-de-Sesion.php">Iniciar sesión</a></li>
+              <li><a href="Registro.php">Registrarse</a></li>
+
+          <?php elseif(!empty($user_estu)): ?>
+             <li> <a href="cierre_sesion.php">
+                Cerrar Sesión
+              </a></li>
+              
+          <?php elseif(!empty($user_prof)): ?>
+             <li> <a href="CRUD/CRUD.php">
+                Estudiantes
+              </a></li>
+              <li> <a href="cierre_sesion.php">
+                Cerrar Sesión
+              </a></li>
+
+          <?php endif; ?>
+
+        
       </ul>
 
       <!-- menu mobile  -->
       <ul id="nav-mobile" class="sidenav">
-        <li><a href="Inicio de Sesión.html">Iniciar sesión</a></li>
-        <li><a href="Registro.html">Registrarse</a></li>
-        <li><a href="Lecciones.html">Lecciones</a></li>
+
+        <li><a href="Lecciones.php">Lecciones</a></li>
         <li><a href="#abajo">Contacto</a></li>
+          <?php if(empty($user_estu) && empty($user_prof)): ?>
+              <li><a href="Inicio-de-Sesion.php">Iniciar sesión</a></li>
+              <li><a href="Registro.php">Registrarse</a></li>
+
+          <?php elseif(!empty($user_estu)): ?>
+             <li> <a href="cierre_sesion.php">
+                Cerrar Sesión
+              </a></li>
+              
+          <?php elseif(!empty($user_prof)): ?>
+             <li> <a href="CRUD/CRUD.php">
+                Estudiantes
+              </a></li>
+              <li> <a href="cierre_sesion.php">
+                Cerrar Sesión
+              </a></li>
+
+          <?php endif; ?>
+
       </ul>
 
       <a href="#" data-target="nav-mobile" class="sidenav-trigger"><i class="material-icons">menu</i></a>
@@ -63,7 +131,7 @@
       </div>
     </div>
     <!-- Fondo 1-->
-    <div class="parallax"><img src="src/Fondo/delfin.jpg" alt="Unsplashed background img 1"></div>
+    <div class="parallax"><img src="Fondo/delfin.jpg" alt="Unsplashed background img 1"></div>
   </div>
 
  <!-- Contenedor 2-->
@@ -74,163 +142,181 @@
         <h2> ABECEDARIO </h2>
         <div class="contenedor-imagenes">
           <div class="imagen">
-              <img src="src/imagenes/A.jpg" alt="">
+              <img src="imagenes/sopita/a.jpg" alt="">
               <div class="overlay">
                   <h2>A</h2>
               </div>
           </div>
           <div class="imagen">
-              <img src="src/imagenes/B.jpeg" alt="">
+              <img src="imagenes/sopita/b.jpg" alt="">
               <div class="overlay">
                   <h2>B</h2>
               </div>
           </div>
           <div class="imagen">
-              <img src="src/imagenes/C.jpeg" alt="">
+              <img src="imagenes/sopita/c.jpg" alt="">
               <div class="overlay">
                   <h2>C</h2>
               </div>
           </div>
           <div class="imagen">
-              <img src="src/imagenes/D.jpeg" alt="">
+              <img src="imagenes/sopita/ch.jpg" alt="">
+              <div class="overlay">
+                  <h2>CH</h2>
+              </div>
+          </div>
+          <div class="imagen">
+              <img src="imagenes/sopita/d.jpg" alt="">
               <div class="overlay">
                   <h2>D</h2>
               </div>
           </div>
           <div class="imagen">
-              <img src="src/imagenes/E.jpeg" alt="">
+              <img src="imagenes/sopita/e.jpg" alt="">
               <div class="overlay">
                   <h2>E</h2>
               </div>
           </div>
           <div class="imagen">
-              <img src="src/imagenes/F.jpeg" alt="">
+              <img src="imagenes/sopita/f.jpg" alt="">
               <div class="overlay">
                   <h2>F</h2>
               </div>
           </div>
           <div class="imagen">
-              <img src="src/imagenes/G.jpeg" alt="">
+              <img src="imagenes/sopita/g.jpg" alt="">
               <div class="overlay">
                   <h2>G</h2>
               </div>
           </div>
           <div class="imagen">
-              <img src="src/imagenes/H.jpeg" alt="">
+              <img src="imagenes/sopita/h.jpg" alt="">
               <div class="overlay">
                   <h2>H</h2>
               </div>
           </div>
           <div class="imagen">
-              <img src="src/imagenes/I.jpeg" alt="">
+              <img src="imagenes/sopita/i.jpg" alt="">
               <div class="overlay">
                   <h2>I</h2>
               </div>
           </div>
           <div class="imagen">
-              <img src="src/imagenes/J.jpeg" alt="">
+              <img src="imagenes/sopita/j.jpg" alt="">
               <div class="overlay">
                   <h2>J</h2>
               </div>
           </div>
           <div class="imagen">
-              <img src="src/imagenes/K.jpeg" alt="">
+              <img src="imagenes/sopita/k.jpg" alt="">
               <div class="overlay">
                   <h2>K</h2>
               </div>
           </div>
           <div class="imagen">
-              <img src="src/imagenes/L.jpeg" alt="">
+              <img src="imagenes/sopita/l.jpg" alt="">
               <div class="overlay">
                   <h2>L</h2>
               </div>
           </div>
           <div class="imagen">
-              <img src="src/imagenes/M.jpeg" alt="">
+              <img src="imagenes/sopita/ll.jpg" alt="">
+              <div class="overlay">
+                  <h2>LL</h2>
+              </div>
+          </div>
+          <div class="imagen">
+              <img src="imagenes/sopita/m.jpg" alt="">
               <div class="overlay">
                   <h2>M</h2>
               </div>
           </div>
           <div class="imagen">
-              <img src="src/imagenes/M1.jpeg" alt="">
+              <img src="imagenes/sopita/n.jpg" alt="">
               <div class="overlay">
                   <h2>N</h2>
               </div>
           </div>
           <div class="imagen">
-              <img src="src/imagenes/N1.jpeg" alt="">
+              <img src="imagenes/sopita/ñ.jpg" alt="">
               <div class="overlay">
                   <h2>Ñ</h2>
               </div>
           </div>
           <div class="imagen">
-              <img src="src/imagenes/O.jpeg" alt="">
+              <img src="imagenes/sopita/o.jpg" alt="">
               <div class="overlay">
                   <h2>O</h2>
               </div>
           </div>
           <div class="imagen">
-              <img src="src/imagenes/P.jpeg" alt="">
+              <img src="imagenes/sopita/p.jpg" alt="">
               <div class="overlay">
                   <h2>P</h2>
               </div>
           </div>
           <div class="imagen">
-              <img src="src/imagenes/Q.jpeg" alt="">
+              <img src="imagenes/sopita/q.jpg" alt="">
               <div class="overlay">
                   <h2>Q</h2>
               </div>
           </div>
           <div class="imagen">
-              <img src="src/imagenes/R.jpeg" alt="">
+              <img src="imagenes/sopita/r.jpg" alt="">
               <div class="overlay">
                   <h2>R</h2>
               </div>
           </div>
           <div class="imagen">
-              <img src="src/imagenes/S.jpeg" alt="">
+              <img src="imagenes/sopita/rr.jpg" alt="">
+              <div class="overlay">
+                  <h2>RR</h2>
+              </div>
+          </div>
+          <div class="imagen">
+              <img src="imagenes/sopita/s.jpg" alt="">
               <div class="overlay">
                   <h2>S</h2>
               </div>
           </div>
           <div class="imagen">
-              <img src="src/imagenes/T.jpeg" alt="">
+              <img src="imagenes/sopita/t.jpg" alt="">
               <div class="overlay">
                   <h2>T</h2>
               </div>
           </div>
           <div class="imagen">
-              <img src="src/imagenes/U.jpeg" alt="">
+              <img src="imagenes/sopita/u.jpg" alt="">
               <div class="overlay">
                   <h2>U</h2>
               </div>
           </div>
           <div class="imagen">
-              <img src="src/imagenes/V.jpeg" alt="">
+              <img src="imagenes/sopita/v.jpg" alt="">
               <div class="overlay">
                   <h2>V</h2>
               </div>
           </div>
           <div class="imagen">
-              <img src="src/imagenes/W.jpeg" alt="">
+              <img src="imagenes/sopita/w.jpg" alt="">
               <div class="overlay">
                   <h2>W</h2>
               </div>
           </div>
           <div class="imagen">
-              <img src="src/imagenes/X.jpeg" alt="">
+              <img src="imagenes/sopita/x.jpg" alt="">
               <div class="overlay">
                   <h2>X</h2>
               </div>
           </div>
           <div class="imagen">
-              <img src="src/imagenes/Y.jpeg" alt="">
+              <img src="imagenes/sopita/y.jpg" alt="">
               <div class="overlay">
                   <h2>Y</h2>
               </div>
           </div>
           <div class="imagen">
-              <img src="src/imagenes/Z.jpeg" alt="">
+              <img src="imagenes/sopita/z.jpg" alt="">
               <div class="overlay">
                   <h2>Z</h2>
               </div>
@@ -254,7 +340,7 @@
         </div>
       </div>
     </div>
-    <div class="parallax"><img src="src/Fondo/Leo.jpg" alt="Unsplashed background img 2"></div>
+    <div class="parallax"><img src="Fondo/Leo.jpg" alt="Unsplashed background img 2"></div>
   </div>
 
   <!-- pie de pagina-->

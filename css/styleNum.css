@@ -18,8 +18,9 @@
       max-width: 1000px;
       margin: auto;
       overflow:hidden;
+
      }
-      
+
      /*Galeria de números*/
      .GALERIA{
       background: rgb(49, 248, 172); /*fondo de la galeria de numeros*/
@@ -72,41 +73,42 @@
       /*estilos de la sopa*/
 
       .JUEGO{
-       background: rgb(206, 255, 114);    
+       background: rgb(206, 255, 114);
+
       }
-    
+
       #juego { /*borde de la celda*/
         border: 1px solid rgb(138, 25, 212);
         padding: 20px;
         float: left;
         margin: 30px 20px;
       }
-      
+
       #juego div {
         width: 100%; /*ubicacion de cada cuadro de la celda*/
-        margin:  auto; 
+        margin:  auto;
       }
-      
-      
+
+
       #juego .puzzleSquare { /* estilo de las celdas */
         text-transform: uppercase;
         background-color: rgb(119, 224, 243);
         border: 0;
         font: 1em sans-serif;
         margin: 3px;
-        width: 45px;
-        height: 45px;
+        width: 50px;
+        height: 70px;
         line-height: 45px;
         text-align: center;
         box-shadow: 0 0 5px rgba(0, 0, 0, 0.3); /*rgba es sombreado*/
         border-radius: 5px;
         float: left;
       }
-    
+
       button::-moz-focus-inner {
-        border: 0; 
+        border: 0;
       }
-      
+
       #juego .selected { /*cuando se escoja un cuadro de la celda o la palabra se sombreara con el color elegido*/
         background-color: rgb(86, 248, 11);
       }
@@ -117,34 +119,36 @@
       #juego .complete {
         background-color: rgba(208, 131, 243, 0.822); /*cuando se encuentren todas las palabras*/
       }
-      
-     
+
+
       #Palabras { /*organizacion por columnas de las palabras*/
-        padding-top: 20px;
+        padding-top: 35px;
         -moz-column-count: 2;
         -moz-column-gap: 20px;
         -webkit-column-count: 2;
         -webkit-column-gap: 20px;
         column-count: 2;
         column-gap: 20px;
-        width: 300px;
+        width: 500px;
+        text-align: center;
+        color: rgb(206, 255, 114);
       }
-      
+
       #Palabras ul {
         list-style-type: disc;
       }
-      
+
       #Palabras li {
         padding: 3px 0;
         font: 1em sans-serif;
       }
-      
+
       #Palabras .wordFound {
         text-decoration: line-through; /*subrayar la palabra encontrada*/
         color: rgb(245, 7, 7);
       }
-      
-   
+
+
 /*para adecuar al celular*/
 
      @media screen and (max-width:900px){
@@ -152,22 +156,24 @@
         background-position: center;
        }
 
-       
+
 
        /*galeria*/
        .imagen-port{
         width: 44%;
        }
 
+
        /*sopa*/
        .JUEGO{
          width: 44%;
+
        }
 
      }
 
      @media screen and (max-width:500px){
-       
+
        /*galeria*/
 
        .imagen-port{
@@ -177,8 +183,8 @@
        .JUEGO{
         width: 95%;
       }
-   
-       
 
-      
+
+
+
      }

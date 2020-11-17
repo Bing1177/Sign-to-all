@@ -1,3 +1,34 @@
+<?php
+  session_start();
+
+  require 'database.php';
+
+  if (isset($_SESSION['user_id_estu'])) {
+      $records = $conn->prepare('SELECT nombre_apellido, identificacion, password, confir_password FROM estudiante WHERE identificacion = :ide');
+      $records->bindParam(':ide', $_SESSION['user_id_estu']);
+      $records->execute();
+      $results = $records->fetch(PDO::FETCH_ASSOC);
+
+       $user_estu = null;
+
+    if (count($results) > 0) {
+      $user_estu = $results;
+    }
+
+  }elseif (isset($_SESSION['user_id_prof'])) {
+      $records = $conn->prepare('SELECT nombre_apellido, identificacion, password, confir_password FROM profesor_a WHERE identificacion = :ide');
+      $records->bindParam(':ide', $_SESSION['user_id_prof']);
+      $records->execute();
+      $results = $records->fetch(PDO::FETCH_ASSOC);
+
+      $user_prof = null;
+
+    if (count($results) > 0) {
+      $user_prof = $results;
+    }
+  }
+?>
+ 
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -5,23 +36,23 @@
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <title>Sign To All </title>
 
-  <link rel="shortcut icon" href="src/imagenes/Logo.png" type="image/png" />
+  <link rel="shortcut icon" href="imagenes/Logo.png" type="image/png" />
 
   <!-- Hojas de CSS  -->
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-  <link href="src/css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection"/>
-  <link href="src/css/style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
-  <link rel="stylesheet" href="src/css/styleIndex.css">
+  <link href="css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+  <link href="css/style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+  <link rel="stylesheet" href="css/styleIndex.css">
 
 
   <!--css iconos-->
-  <link rel="stylesheet" href="src/css/iconos.css">
+  <link rel="stylesheet" href="css/iconos.css">
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css">
 
   <!--  Scripts-->
   <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
-  <script src="src/js/materialize.js"></script>
-  <script src="src/js/init.js"></script>
+  <script src="js/materialize.js"></script>
+  <script src="js/init.js"></script>
 </head>
 <body>
   <!-- Contenedor 1  -->
@@ -29,23 +60,60 @@
     <div class="nav-wrapper container">
 
       <!-- encabezado -->
-      <img src="src/imagenes/Logo.png" style="width:65px;height:64px;border:10px"></img>
-      <a id="logo-container" href="Index.html" class="brand-logo">Sign to all</a>
+      <img src="imagenes/Logo.png" style="width:65px;height:64px;border:10px"></img>
+      <a id="logo-container" href="Index.php" class="brand-logo">Sign to all</a>
 
       <!-- menu pc -->
       <ul class="right hide-on-med-and-down">
-        <li><a href="Inicio de Sesión.html">Iniciar sesión</a></li>
-        <li><a href="Registro.html">Registrarse</a></li>
-        <li><a href="Lecciones.html">Lecciones</a></li>
+
+        <li><a href="Lecciones.php">Lecciones</a></li>
         <li><a href="#abajo">Contacto</a></li>
+          <?php if(empty($user_estu) && empty($user_prof)): ?>
+              <li><a href="Inicio-de-Sesion.php">Iniciar sesión</a></li>
+              <li><a href="Registro.php">Registrarse</a></li>
+
+          <?php elseif(!empty($user_estu)): ?>
+             <li> <a href="cierre_sesion.php">
+                Cerrar Sesión
+              </a></li>
+              
+          <?php elseif(!empty($user_prof)): ?>
+             <li> <a href="CRUD.php">
+                Estudiantes
+              </a></li>
+              <li> <a href="cierre_sesion.php">
+                Cerrar Sesión
+              </a></li>
+
+          <?php endif; ?>
+
+        
       </ul>
 
       <!-- menu mobile  -->
       <ul id="nav-mobile" class="sidenav">
-        <li><a href="Inicio de Sesión.html">Iniciar sesión</a></li>
-        <li><a href="Registro.html">Registrarse</a></li>
-        <li><a href="Lecciones.html">Lecciones</a></li>
+
+        <li><a href="Lecciones.php">Lecciones</a></li>
         <li><a href="#abajo">Contacto</a></li>
+          <?php if(empty($user_estu) && empty($user_prof)): ?>
+              <li><a href="Inicio-de-Sesion.php">Iniciar sesión</a></li>
+              <li><a href="Registro.php">Registrarse</a></li>
+
+          <?php elseif(!empty($user_estu)): ?>
+             <li> <a href="cierre_sesion.php">
+                Cerrar Sesión
+              </a></li>
+              
+          <?php elseif(!empty($user_prof)): ?>
+             <li> <a href="CRUD.php">
+                Estudiantes
+              </a></li>
+              <li> <a href="cierre_sesion.php">
+                Cerrar Sesión
+              </a></li>
+
+          <?php endif; ?>
+
       </ul>
 
       <a href="#" data-target="nav-mobile" class="sidenav-trigger"><i class="material-icons">menu</i></a>
@@ -63,7 +131,7 @@
       </div>
     </div>
     <!-- Fondo 1-->
-    <div class="parallax"><img src="src/Fondo/TUCAN 2.jpg" alt="Unsplashed background img 1"></div>
+    <div class="parallax"><img src="Fondo/TUCAN 2.jpg" alt="Unsplashed background img 1"></div>
   </div>
 
  <!-- Contenedor 2-->
@@ -73,17 +141,17 @@
       <div class="col s12">
         <br></br>
         <h2 class="h1">MISIÓN:</h2>
-          <p><img class="derecha1"src="src/imagenes/mision.jpeg">Sign to all busca generar un entorno más ameno para niños de segundo grado del colegio Pablo de Tarso con discapacidades auditivas , impulsando al estudiante a obtener una mejor compresión y comunicación.</p>
+          <p><img class="derecha1"src="imagenes/mision.jpeg">Sign to all busca generar un entorno más ameno para niños de segundo grado del colegio Pablo de Tarso con discapacidades auditivas , impulsando al estudiante a obtener una mejor compresión y comunicación.</p>
         <!--Recuadro que contiene la visión del proyecto-->
         <br></br>
         <h2 class="h2">VISIÓN:</h2>
-        <p><img class="izquierda"src="src/imagenes/vision2.png">Facilitar la comunicación y el aprendizaje de niños de grado segundo que poseen una
+        <p><img class="izquierda"src="imagenes/vision2.png">Facilitar la comunicación y el aprendizaje de niños de grado segundo que poseen una
           discapacidad auditiva, por medio de una plataforma web que permita una interacción de manera
           natural con sus compañeros y docentes.</p>
         <!--Recuadro que contiene el objetivo general del progrecto-->
         <br></br>
         <h2 class="h3"> OBJETIVO GENERAL:</h2>
-        <p><img class="derecha2"src="src/imagenes/objetivo3.png">Facilitar la comunicación y el aprendizaje de niños de grado segundo que poseen una
+        <p><img class="derecha2"src="imagenes/objetivo3.png">Facilitar la comunicación y el aprendizaje de niños de grado segundo que poseen una
           discapacidad auditiva, por medio de una plataforma web que permita una interacción de manera
           natural con sus compañeros y docentes.</p>
         <br></br>
@@ -103,7 +171,7 @@
         </div>
       </div>
     </div>
-    <div class="parallax"><img src="src/Fondo/delfin.jpg" alt="Unsplashed background img 2"></div>
+    <div class="parallax"><img src="Fondo/delfin.jpg" alt="Unsplashed background img 2"></div>
   </div>
 
   <!-- pie de pagina-->
